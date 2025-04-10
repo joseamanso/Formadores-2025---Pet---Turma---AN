@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEU MELHOR AMIGO PET</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Estilos adicionais para a imagem e o botão de escolha */
+        #inicioImagem {
+            display: block;
+            margin: 10px auto;
+            max-width: 200px;
+            height: auto;
+        }
+        #escolherImagemContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 10px auto;
+            width: 120px; /* Largura para o botão */
+        }
+        #escolherImagem {
+            opacity: 0; /* Torna o input de arquivo invisível */
+            position: absolute; /* Permite posicionar o label sobre ele */
+            width: 120px; /* Mesma largura do botão */
+            height: 30px; /* Altura aproximada do botão */
+            cursor: pointer;
+        }
+        #escolherArquivoLabel {
+            display: inline-block;
+            background: linear-gradient(top, #f9f9f9, #e3e3e3);
+            border: 1px solid #999;
+            border-radius: 3px;
+            padding: 5px 8px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            text-shadow: 1px 1px #fff;
+            font-weight: bold;
+            font-size: 10pt;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+            position: relative; /* Cria um contexto para posicionamento absoluto */
+        }
+        #escolherImagem:active + #escolherArquivoLabel {
+            border-color: #000;
+            background: linear-gradient(top, #e3e3e3, #f9f9f9);
+        }
+        #arquivoSelecionado {
+            display: block;
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 5px;
+        }
+
+        /* Estilos para centralizar a página */
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start; /* Alinha o conteúdo ao topo inicialmente */
+            min-height: 100vh; /* Garante que o body ocupe pelo menos a altura da tela */
+            margin: 0; /* Remove a margem padrão do body */
+            padding-bottom: 20px; /* Adiciona um pouco de espaço abaixo do conteúdo */
+            /* Outros estilos do body */
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .page-title-top {
+            text-align: center;
+            padding: 20px;
+            background-color: #dcdcdc;
+            color: #333;
+            margin-bottom: 20px;
+            width: 80%; /* Largura para o título */
+            max-width: 800px; /* Largura máxima para o título */
+        }
+
+        /* Centralizar a div que contém a imagem e o botão */
+        #inicioImagemContainer {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 20px;
+            width: 80%; /* Largura para a imagem e o botão */
+            max-width: 800px; /* Largura máxima */
+        }
+
+        #inicioImagem {
+            /* Estilos da imagem */
+            display: block;
+            margin-bottom: 10px; /* Espaço entre a imagem e o botão */
+            max-width: 100%; /* Garante que a imagem não ultrapasse a largura do container */
+            height: auto;
+        }
+
+        #escolherImagemContainer {
+            width: 120px; /* Largura fixa para o container do botão */
+        }
+
+        #escolherImagem {
+            opacity: 0;
+            position: absolute;
+            width: 100%;
+            height: 30px; /* Altura aproximada do botão */
+            cursor: pointer;
+            top: 0;
+            left: 0;
+        }
+
+        #escolherArquivoLabel {
+            display: block;
+            background: linear-gradient(top, #f9f9f9, #e3e3e3);
+            border: 1px solid #999;
+            border-radius: 3px;
+            padding: 5px 8px;
+            outline: none;
+            white-space: nowrap;
+            -webkit-user-select: none;
+            cursor: pointer;
+            text-shadow: 1px 1px #fff;
+            font-weight: bold;
+            font-size: 10pt;
+            text-align: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        #escolherImagem:active + #escolherArquivoLabel {
+            border-color: #000;
+            background: linear-gradient(top, #e3e3e3, #f9f9f9);
+        }
+
+        #arquivoSelecionado {
+            display: block;
+            text-align: center;
+            font-size: 0.8em;
+            color: #777;
+            margin-top: 5px;
+        }
+
+
+        .header, .accessibility-menu, #registerModal, #loginModal, .main-content {
+            width: 80%; /* Largura para os outros elementos */
+            max-width: 800px; /* Largura máxima para os outros elementos */
+            margin-bottom: 20px; /* Espaçamento entre os elementos */
+            background-color: #fff; /* Adicione um fundo branco para melhor visualização */
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            box-sizing: border-box; /* Garante que o padding não aumente a largura */
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .auth-buttons button {
+            margin-left: 10px;
+        }
+
+        .accessibility-menu h3 {
+            margin-top: 0;
+        }
+
+        .modal-content {
+            width: 90%; /* Aumenta a largura do modal */
+            max-width: 600px; /* Define uma largura máxima para o modal */
+            margin: 10% auto; /* Ajusta a margem para centralizar verticalmente */
+        }
+
+        .pet-list {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1 class="page-title-top">SEU MELHOR AMIGO PET</h1>
+
+    <div id="inicioImagemContainer">
+        <img id="inicioImagem" src="gatinho.jpg" alt="Imagem inicial">
+        <div id="escolherImagemContainer">
+            <input type="file" id="escolherImagem" accept="image/*">
+            <label for="escolherImagem" id="escolherArquivoLabel">Escolher Arquivo</label>
+            <span id="arquivoSelecionado"></span>
+        </div>
+    </div>
+
+    <div class="header">
+        <div class="auth-buttons">
+            <button class="login-btn" onclick="openLoginModal()">Entrar</button>
+            <button class="register-btn" onclick="openRegisterModal()">Registrar</button>
+        </div>
+    </div>
+
+    <div class="accessibility-menu">
+        <h3>Acessibilidade</h3>
+        <button id="increase-font">Aumentar Fonte</button>
+        <button id="decrease-font">Diminuir Fonte</button>
+        <button id="toggle-contrast">Mudar Contraste</button>
+        <div class="contrast-picker">
+            <input type="color" id="contrast-color-picker" value="#ffffff" style="display: none;">
+        </div>
+    </div>
+
+    <div id="registerModal" class="modal">
+        <div class="modal-content">
+            <h2>Registrar</h2>
+            <form id="registerForm">
+                <div class="form-group">
+                    <label for="registerName">Nome:</label>
+                    <input type="text" id="registerName" name="registerName" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerEmail">Email:</label>
+                    <input type="email" id="registerEmail" name="registerEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="registerPassword">Senha:</label>
+                    <input type="password" id="registerPassword" name="registerPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirmar Senha:</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="confirm-btn">Registrar</button>
+                    <button type="button" class="cancel-btn" onclick="closeRegisterModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div id="loginModal" class="modal">
+        <div class="modal-content">
+            <h2>Entrar</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email:</label>
+                    <input type="email" id="loginEmail" name="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Senha:</label>
+                    <input type="password" id="loginPassword" name="loginPassword" required>
+                </div>
+                <div class="modal-buttons">
+                    <button type="submit" class="confirm-btn" onclick="login()">Entrar</button>
+                    <button type="button" class="cancel-btn" onclick="closeLoginModal()">Cancelar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <div class="main-content" id="mainContent">
+        <h2>Cadastro de Pet</h2>
+        <form class="pet-form" id="petForm">
+            <label for="petName">Nome do Pet:</label>
+            <input type="text" id="petName" name="petName" required>
+
+            <label for="petFood">Ração Preferida:</label>
+            <input type="text" id="petFood" name="petFood">
+
+            <div class="image-upload">
+                <label for="petImage">Selecionar Foto</label>
+                <input type="file" id="petImage" name="petImage" accept="image/*">
+                <div id="imagePreview" style="margin-top: 10px;"></div>
+            </div>
+
+            <button type="button" onclick="addPet()">Salvar Pet</button>
+        </form>
+
+        <div class="pet-list" id="petList">
+            <h2>Meus Pets</h2>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
